@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Studio & Sketch — Private Art Lessons · Sewickley, PA</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --ink: #1a1612;
+    --warm: #c8a97e;
+    --muted: #8c7b6b;
+    --rust: #9b4f2a;
+    --paper: #ede8de;
+    --light-ink: #3d332a;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── GRAIN OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.4rem 3rem;
+    background: rgba(245,240,232,0.88);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(200,169,126,0.25);
+    transition: padding 0.3s;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--rust); }
+  .nav-cta {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rust);
+    border: 1px solid var(--rust);
+    padding: 0.5rem 1.2rem;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-cta:hover { background: var(--rust); color: var(--cream); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 4rem 6rem 5rem;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 6vw, 6rem);
+    line-height: 1.0;
+    font-weight: 300;
+    color: var(--ink);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--rust);
+  }
+  .hero-sub {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--muted);
+    max-width: 380px;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 0.9rem 2.2rem;
+    text-decoration: none;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--rust); }
+  .btn-secondary {
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    padding: 0.9rem 2.2rem;
+    text-decoration: none;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-secondary:hover { background: var(--ink); color: var(--cream); }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeIn 1.2s 0.3s forwards;
+  }
+  .hero-right::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(155,79,42,0.12) 0%, transparent 60%);
+    z-index: 1;
+  }
+  .hero-canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Hero decorative sketch lines */
+  .sketch-bg {
+    position: absolute;
+    top: 10%;
+    right: 5%;
+    width: 220px;
+    opacity: 0.06;
+    z-index: 0;
+  }
+
+  /* ── MARQUEE ── */
+  .marquee-wrap {
+    background: var(--ink);
+    padding: 1rem 0;
+    overflow: hidden;
+  }
+  .marquee-track {
+    display: flex;
+    white-space: nowrap;
+    animation: marquee 22s linear infinite;
+  }
+  .marquee-track span {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--warm);
+    padding: 0 2.5rem;
+    opacity: 0.85;
+  }
+  .marquee-track span::before {
+    content: '✦';
+    margin-right: 2.5rem;
+    font-size: 0.7rem;
+    vertical-align: middle;
+    opacity: 0.5;
+  }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 7rem 5rem; }
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+  .section-title em { font-style: italic; color: var(--rust); }
+  .divider {
+    width: 48px;
+    height: 1px;
+    background: var(--warm);
+    margin: 1.5rem 0 2rem;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    background: var(--paper);
+  }
+  .about-image-wrap {
+    position: relative;
+  }
+  .about-image-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: -18px;
+    right: -18px;
+    width: 80%;
+    height: 80%;
+    border: 1px solid var(--warm);
+    z-index: 0;
+  }
+  .about-img {
+    width: 100%;
+    height: 480px;
+    object-fit: cover;
+    position: relative;
+    z-index: 1;
+    display: block;
+  }
+
+  /* SVG placeholder for about image */
+  .about-placeholder {
+    width: 100%;
+    height: 480px;
+    background: linear-gradient(135deg, #d4c5b0 0%, #b8a48a 50%, #c8b49a 100%);
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .about-placeholder svg {
+    width: 160px;
+    opacity: 0.3;
+  }
+
+  .about-text p {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: var(--light-ink);
+    margin-bottom: 1.2rem;
+  }
+  .about-detail {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 2rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .about-detail::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--warm);
+    flex-shrink: 0;
+  }
+
+  /* ── LESSONS ── */
+  #lessons {
+    background: var(--cream);
+  }
+  .lessons-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+    align-items: end;
+  }
+  .lessons-intro {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: var(--muted);
+  }
+  .lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: var(--warm);
+  }
+  .lesson-card {
+    background: var(--cream);
+    padding: 2.8rem 2.2rem;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .lesson-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: var(--rust);
+    transition: width 0.4s;
+  }
+  .lesson-card:hover { background: var(--paper); }
+  .lesson-card:hover::before { width: 100%; }
+  .lesson-icon {
+    font-size: 2rem;
+    margin-bottom: 1.4rem;
+    display: block;
+  }
+  .lesson-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 0.7rem;
+  }
+  .lesson-card p {
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: var(--muted);
+  }
+  .lesson-media {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-top: 1.2rem;
+    opacity: 0.8;
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience {
+    background: var(--ink);
+    color: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  .exp-left {
+    padding: 7rem 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .exp-left .section-label { color: var(--warm); }
+  .exp-left .section-title { color: var(--cream); }
+  .exp-left .divider { background: var(--warm); opacity: 0.4; }
+  .exp-text {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: rgba(245,240,232,0.65);
+    margin-bottom: 2.5rem;
+  }
+  .stats-row {
+    display: flex;
+    gap: 3rem;
+    margin-top: 2.5rem;
+  }
+  .stat-item {}
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--warm);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.45);
+    margin-top: 0.3rem;
+  }
+  .exp-right {
+    background: linear-gradient(135deg, #2a1f15 0%, #1a1612 100%);
+    padding: 7rem 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    border-left: 1px solid rgba(200,169,126,0.12);
+  }
+  .offering-item {
+    display: flex;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(200,169,126,0.1);
+  }
+  .offering-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .offering-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--warm);
+    opacity: 0.5;
+    flex-shrink: 0;
+    padding-top: 0.1rem;
+  }
+  .offering-content h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 0.4rem;
+  }
+  .offering-content p {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: rgba(245,240,232,0.5);
+  }
+
+  /* ── PRICING ── */
+  #pricing {
+    background: var(--paper);
+    text-align: center;
+  }
+  #pricing .section-label,
+  #pricing .section-title { text-align: center; }
+  #pricing .divider { margin: 1.5rem auto 2rem; }
+  .pricing-intro {
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.8;
+    max-width: 540px;
+    margin: 0 auto 4rem;
+  }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .pricing-card {
+    background: var(--cream);
+    padding: 3rem 2rem;
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid transparent;
+  }
+  .pricing-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(26,22,18,0.1);
+    border-color: var(--warm);
+  }
+  .pricing-card.featured {
+    background: var(--ink);
+    color: var(--cream);
+    transform: scale(1.04);
+  }
+  .pricing-card.featured:hover {
+    transform: scale(1.04) translateY(-6px);
+  }
+  .pricing-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--rust);
+    color: var(--cream);
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.3rem 1rem;
+  }
+  .pricing-type {
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .pricing-card.featured .pricing-type { color: var(--warm); opacity: 0.7; }
+  .pricing-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+  .pricing-card.featured .pricing-price { color: var(--cream); }
+  .pricing-per {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    letter-spacing: 0.1em;
+  }
+  .pricing-card.featured .pricing-per { color: rgba(245,240,232,0.5); }
+  .pricing-features {
+    list-style: none;
+    margin-bottom: 2.5rem;
+    text-align: left;
+  }
+  .pricing-features li {
+    font-size: 0.88rem;
+    color: var(--light-ink);
+    line-height: 1.6;
+    padding: 0.5rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+    border-bottom: 1px solid rgba(200,169,126,0.15);
+  }
+  .pricing-card.featured .pricing-features li { color: rgba(245,240,232,0.75); border-color: rgba(200,169,126,0.15); }
+  .pricing-features li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--warm);
+    font-size: 0.7rem;
+  }
+  .pricing-btn {
+    display: block;
+    text-align: center;
+    padding: 0.8rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+  }
+  .pricing-btn:hover { background: var(--ink); color: var(--cream); }
+  .pricing-card.featured .pricing-btn {
+    background: var(--warm);
+    color: var(--ink);
+    border-color: var(--warm);
+  }
+  .pricing-card.featured .pricing-btn:hover {
+    background: var(--rust);
+    border-color: var(--rust);
+    color: var(--cream);
+  }
+  .pricing-note {
+    margin-top: 2.5rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* ── LOCATION ── */
+  #location {
+    background: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+  .location-map-placeholder {
+    height: 420px;
+    background: linear-gradient(135deg, #d8d0c4 0%, #c8bfb0 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: var(--muted);
+    border: 1px solid rgba(200,169,126,0.3);
+  }
+  .location-map-placeholder svg { opacity: 0.35; }
+  .location-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .location-item {
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+  }
+  .location-icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--warm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.1rem;
+    color: var(--warm);
+  }
+  .location-info h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 0.3rem;
+  }
+  .location-info p {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+  .location-areas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+  }
+  .area-tag {
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rust);
+    border: 1px solid rgba(155,79,42,0.3);
+    padding: 0.25rem 0.7rem;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--ink);
+    text-align: center;
+    padding: 7rem 5rem;
+  }
+  #contact .section-label { color: var(--warm); }
+  #contact .section-title { color: var(--cream); }
+  #contact .divider { background: var(--warm); opacity: 0.3; margin: 1.5rem auto 1.5rem; }
+  .contact-sub {
+    font-size: 1rem;
+    color: rgba(245,240,232,0.55);
+    line-height: 1.8;
+    max-width: 460px;
+    margin: 0 auto 3.5rem;
+  }
+  .contact-form {
+    max-width: 520px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .form-input {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(200,169,126,0.2);
+    padding: 1rem 1.2rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.88rem;
+    color: var(--cream);
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-input::placeholder { color: rgba(245,240,232,0.3); }
+  .form-input:focus { border-color: var(--warm); }
+  select.form-input option { background: var(--ink); }
+  textarea.form-input { resize: vertical; min-height: 120px; }
+  .form-submit {
+    background: var(--warm);
+    color: var(--ink);
+    border: none;
+    padding: 1rem 2.5rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+    align-self: center;
+    min-width: 200px;
+  }
+  .form-submit:hover { background: var(--rust); color: var(--cream); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #100e0b;
+    padding: 2.5rem 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(200,169,126,0.1);
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.4);
+  }
+  .footer-copy {
+    font-size: 0.72rem;
+    color: rgba(245,240,232,0.25);
+    letter-spacing: 0.1em;
+  }
+  .footer-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: rgba(200,169,126,0.4);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* ── HERO SVG CANVAS ── */
+  .hero-canvas-svg {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    display: block;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 2rem; }
+    .nav-links { display: none; }
+    #hero { grid-template-columns: 1fr; }
+    .hero-right { height: 50vh; }
+    .hero-left { padding: 4rem 2rem; }
+    section { padding: 5rem 2rem; }
+    #about, #location { grid-template-columns: 1fr; gap: 3rem; }
+    .lessons-header { grid-template-columns: 1fr; }
+    .lessons-grid { grid-template-columns: 1fr; }
+    #experience { grid-template-columns: 1fr; }
+    .exp-left, .exp-right { padding: 4rem 2rem; }
+    .pricing-grid { grid-template-columns: 1fr; max-width: 380px; }
+    .pricing-card.featured { transform: none; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Studio & Sketch</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#lessons">Lessons</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#location">Location</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Book a Lesson</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Private Art Instruction · Sewickley, PA</p>
+    <h1 class="hero-title">Learn to Draw.<br>Learn to <em>See.</em></h1>
+    <p class="hero-sub">One-on-one art lessons in a welcoming home studio environment in the Sewickley and North Pittsburgh area. For beginners, returning artists, and curious minds of all ages.</p>
+    <div class="hero-buttons">
+      <a href="#lessons" class="btn-primary">Explore Lessons</a>
+      <a href="#contact" class="btn-secondary">Book a Session</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <svg class="hero-canvas-svg" viewBox="0 0 600 700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#d4c5b0"/>
+          <stop offset="50%" style="stop-color:#c4a882"/>
+          <stop offset="100%" style="stop-color:#b8926a"/>
+        </linearGradient>
+        <filter id="paper">
+          <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" result="noise"/>
+          <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise"/>
+          <feBlend in="SourceGraphic" in2="grayNoise" mode="multiply" result="blend"/>
+          <feComposite in="blend" in2="SourceGraphic" operator="in"/>
+        </filter>
+      </defs>
+      <!-- Paper background -->
+      <rect width="600" height="700" fill="url(#bg1)" filter="url(#paper)"/>
+      <!-- Easel sketch -->
+      <g opacity="0.18" stroke="#3d2b1a" stroke-width="1.5" fill="none">
+        <!-- Easel legs -->
+        <line x1="220" y1="560" x2="300" y2="200"/>
+        <line x1="380" y1="560" x2="300" y2="200"/>
+        <line x1="300" y1="560" x2="300" y2="200"/>
+        <line x1="200" y1="450" x2="400" y2="450"/>
+        <!-- Canvas on easel -->
+        <rect x="220" y="190" width="160" height="130" rx="1"/>
+        <rect x="228" y="198" width="144" height="114" rx="0"/>
+        <!-- Rough portrait sketch on canvas -->
+        <circle cx="300" cy="245" r="28"/>
+        <path d="M278,273 Q280,295 300,300 Q320,295 322,273"/>
+        <line x1="292" y1="240" x2="296" y2="248"/>
+        <line x1="308" y1="240" x2="304" y2="248"/>
+        <path d="M294,255 Q300,260 306,255"/>
+      </g>
+      <!-- Scattered art supplies sketches -->
+      <g opacity="0.12" stroke="#3d2b1a" stroke-width="1.2" fill="none">
+        <!-- Paintbrush 1 -->
+        <line x1="80" y1="120" x2="150" y2="180"/>
+        <ellipse cx="75" cy="115" rx="8" ry="5" transform="rotate(-40,75,115)"/>
+        <!-- Pencil -->
+        <line x1="480" y1="400" x2="540" y2="500"/>
+        <polygon points="480,400 472,396 476,390" fill="#3d2b1a" opacity="0.12"/>
+        <!-- Palette shape -->
+        <ellipse cx="130" cy="580" rx="55" ry="45" transform="rotate(-15,130,580)"/>
+        <circle cx="105" cy="558" r="8"/>
+        <circle cx="130" cy="548" r="8"/>
+        <circle cx="155" cy="555" r="8"/>
+        <circle cx="160" cy="575" r="8"/>
+        <circle cx="145" cy="590" r="8"/>
+      </g>
+      <!-- Decorative text: media types -->
+      <g opacity="0.22" font-family="Georgia, serif" font-style="italic" fill="#3d2b1a" font-size="13">
+        <text x="60" y="300" transform="rotate(-90,60,300)">charcoal</text>
+        <text x="500" y="180">ink</text>
+        <text x="430" y="620" transform="rotate(8,430,620)">watercolor</text>
+        <text x="55" y="440" transform="rotate(-5,55,440)">pencil</text>
+      </g>
+      <!-- Loose grid lines suggesting a sketchbook -->
+      <g opacity="0.06" stroke="#3d2b1a" stroke-width="0.5">
+        <line x1="0" y1="100" x2="600" y2="100"/>
+        <line x1="0" y1="200" x2="600" y2="200"/>
+        <line x1="0" y1="300" x2="600" y2="300"/>
+        <line x1="0" y1="400" x2="600" y2="400"/>
+        <line x1="0" y1="500" x2="600" y2="500"/>
+        <line x1="0" y1="600" x2="600" y2="600"/>
+        <line x1="100" y1="0" x2="100" y2="700"/>
+        <line x1="200" y1="0" x2="200" y2="700"/>
+        <line x1="300" y1="0" x2="300" y2="700"/>
+        <line x1="400" y1="0" x2="400" y2="700"/>
+        <line x1="500" y1="0" x2="500" y2="700"/>
+      </g>
+      <!-- Warm rust color-wash corner -->
+      <rect x="450" y="0" width="150" height="200" fill="#9b4f2a" opacity="0.12"/>
+      <rect x="0" y="550" width="120" height="150" fill="#9b4f2a" opacity="0.08"/>
+    </svg>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>Drawing</span><span>Watercolor</span><span>Charcoal</span>
+    <span>Portraiture</span><span>Still Life</span><span>Ink & Wash</span>
+    <span>Sketching</span><span>Observational Drawing</span><span>Pastels</span>
+    <span>All Skill Levels</span><span>Children & Adults</span><span>Private Sessions</span>
+    <span>Drawing</span><span>Watercolor</span><span>Charcoal</span>
+    <span>Portraiture</span><span>Still Life</span><span>Ink & Wash</span>
+    <span>Sketching</span><span>Observational Drawing</span><span>Pastels</span>
+    <span>All Skill Levels</span><span>Children & Adults</span><span>Private Sessions</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-image-wrap reveal">
+    <div class="about-placeholder">
+      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none">
+        <circle cx="60" cy="42" r="22" stroke="#3d2b1a" stroke-width="1.5"/>
+        <path d="M35,90 Q38,68 60,65 Q82,68 85,90" stroke="#3d2b1a" stroke-width="1.5"/>
+        <line x1="60" y1="90" x2="60" y2="115"/>
+        <line x1="38" y1="100" x2="82" y2="100"/>
+        <!-- paintbrush in hand -->
+        <line x1="78" y1="76" x2="105" y2="50"/>
+        <circle cx="107" cy="48" r="4" fill="#9b4f2a" opacity="0.5"/>
+      </svg>
+    </div>
+  </div>
+  <div class="about-text reveal reveal-delay-1">
+    <p class="section-label">About Your Instructor</p>
+    <h2 class="section-title">Art taught in a<br>personal, unhurried <em>space.</em></h2>
+    <div class="divider"></div>
+    <p>Welcome! I offer private art lessons out of my home studio in Sewickley, bringing a warm, studio-school atmosphere right to your neighborhood. My approach is rooted in careful observation — learning to truly <em>see</em> before you draw.</p>
+    <p>Whether you're picking up a pencil for the first time or returning to a practice you left behind, lessons are tailored to your pace, your interests, and the media that excite you most.</p>
+    <p>Students range from young beginners to working adults. Every session is one-on-one: no waiting, no distractions, just you and the work in front of you.</p>
+    <div class="about-detail">Sewickley · Ben Avon · Edgeworth · Emsworth · North Hills</div>
+  </div>
+</section>
+
+<!-- LESSONS -->
+<section id="lessons">
+  <div class="lessons-header reveal">
+    <div>
+      <p class="section-label">What We Cover</p>
+      <h2 class="section-title">Disciplines &<br><em>Media</em></h2>
+    </div>
+    <p class="lessons-intro">All lessons are private and customized. Sessions can focus on a single medium or blend techniques — whatever serves your goals best. Supplies can be provided or discussed in advance.</p>
+  </div>
+
+  <div class="lessons-grid reveal">
+    <div class="lesson-card">
+      <span class="lesson-icon">✏️</span>
+      <h3>Drawing Foundations</h3>
+      <p>Line, form, proportion, perspective, and shading — the building blocks every artist needs, taught through direct observation and practice.</p>
+      <p class="lesson-media">Pencil · Charcoal · Graphite</p>
+    </div>
+    <div class="lesson-card">
+      <span class="lesson-icon">🖋</span>
+      <h3>Ink & Sketching</h3>
+      <p>Expressive mark-making, contour drawing, and the confidence that comes from committing pen to paper without the option to erase.</p>
+      <p class="lesson-media">Ink · Fine-liner · Brush Pen</p>
+    </div>
+    <div class="lesson-card">
+      <span class="lesson-icon">🎨</span>
+      <h3>Watercolor</h3>
+      <p>Learn to work with light and transparency. Landscape, still life, and botanical subjects translate beautifully to this luminous medium.</p>
+      <p class="lesson-media">Watercolor · Gouache</p>
+    </div>
+    <div class="lesson-card">
+      <span class="lesson-icon">🖼</span>
+      <h3>Portraiture</h3>
+      <p>Capturing likeness and expression — from quick gesture studies to longer, more structured portrait studies from life or photo reference.</p>
+      <p class="lesson-media">Charcoal · Pencil · Pastel</p>
+    </div>
+    <div class="lesson-card">
+      <span class="lesson-icon">🌿</span>
+      <h3>Still Life & Observation</h3>
+      <p>Develop a patient eye for form and light by working from carefully composed arrangements — a cornerstone of classical art training.</p>
+      <p class="lesson-media">Any medium</p>
+    </div>
+    <div class="lesson-card">
+      <span class="lesson-icon">🎠</span>
+      <h3>Kids & Teen Classes</h3>
+      <p>Nurturing, age-appropriate lessons that build confidence and real technique — not just arts-and-crafts. For ages 7 and up.</p>
+      <p class="lesson-media">Mixed media · Chosen by student</p>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="exp-left reveal">
+    <p class="section-label">The Experience</p>
+    <h2 class="section-title">A proper<br>studio. <em>At home.</em></h2>
+    <div class="divider"></div>
+    <p class="exp-text">Lessons take place in a quiet, dedicated home studio space — set up with proper lighting, reference materials, and everything you need to focus. The atmosphere is relaxed but purposeful: this is a real learning environment.</p>
+    <p class="exp-text">Because sessions are entirely private, progress is faster and more personal than any group class. Your instructor adjusts in real time based on what you need.</p>
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-num">1:1</div>
+        <div class="stat-label">Private only</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">90<span style="font-size:1.5rem">min</span></div>
+        <div class="stat-label">Standard session</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">All</div>
+        <div class="stat-label">Skill levels</div>
+      </div>
+    </div>
+  </div>
+  <div class="exp-right reveal reveal-delay-1">
+    <div class="offering-item">
+      <span class="offering-num">01</span>
+      <div class="offering-content">
+        <h4>Custom Curriculum</h4>
+        <p>No generic syllabus. Your first session is spent understanding your goals and building a roadmap that's yours alone.</p>
+      </div>
+    </div>
+    <div class="offering-item">
+      <span class="offering-num">02</span>
+      <div class="offering-content">
+        <h4>All Supplies Available</h4>
+        <p>Don't know what to buy? Don't worry. Supplies are available to use in-studio, and guidance is given for building your own kit over time.</p>
+      </div>
+    </div>
+    <div class="offering-item">
+      <span class="offering-num">03</span>
+      <div class="offering-content">
+        <h4>Flexible Scheduling</h4>
+        <p>Morning, afternoon, and some evening slots available. Sessions can be weekly, bi-weekly, or booked à la carte.</p>
+      </div>
+    </div>
+    <div class="offering-item">
+      <span class="offering-num">04</span>
+      <div class="offering-content">
+        <h4>Gift Lessons Available</h4>
+        <p>A single session or a package of lessons makes a thoughtful, lasting gift for someone creative in your life.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <p class="section-label">Rates</p>
+  <h2 class="section-title">Simple, <em>Transparent</em> Pricing</h2>
+  <div class="divider"></div>
+  <p class="pricing-intro">All sessions are private and held at the home studio in Sewickley. Packages offer the best value and are the most common choice for students committed to steady progress.</p>
+
+  <div class="pricing-grid reveal">
+    <div class="pricing-card">
+      <p class="pricing-type">Single Session</p>
+      <div class="pricing-price">$75</div>
+      <p class="pricing-per">per 90-minute lesson</p>
+      <ul class="pricing-features">
+        <li>One private session</li>
+        <li>Any skill level</li>
+        <li>Choose your medium</li>
+        <li>Studio supplies included</li>
+      </ul>
+      <a href="#contact" class="pricing-btn">Book Now</a>
+    </div>
+
+    <div class="pricing-card featured">
+      <div class="pricing-badge">Most Popular</div>
+      <p class="pricing-type">4-Session Package</p>
+      <div class="pricing-price">$260</div>
+      <p class="pricing-per">$65 per session · save $40</p>
+      <ul class="pricing-features">
+        <li>Four private sessions</li>
+        <li>Structured progression</li>
+        <li>Take-home exercises</li>
+        <li>Supply guidance included</li>
+      </ul>
+      <a href="#contact" class="pricing-btn">Book Package</a>
+    </div>
+
+    <div class="pricing-card">
+      <p class="pricing-type">8-Session Package</p>
+      <div class="pricing-price">$480</div>
+      <p class="pricing-per">$60 per session · save $120</p>
+      <ul class="pricing-features">
+        <li>Eight private sessions</li>
+        <li>Full curriculum arc</li>
+        <li>Portfolio development</li>
+        <li>Priority scheduling</li>
+      </ul>
+      <a href="#contact" class="pricing-btn">Book Package</a>
+    </div>
+  </div>
+  <p class="pricing-note reveal">Children's sessions (ages 7–12): 60 min · $55 single / $180 for 4 sessions. Gift certificates available — contact to arrange.</p>
+</section>
+
+<!-- LOCATION -->
+<section id="location">
+  <div class="location-map-placeholder reveal">
+    <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" width="64" fill="none">
+      <path d="M40 10 C26 10 16 20 16 33 C16 50 40 70 40 70 C40 70 64 50 64 33 C64 20 54 10 40 10Z" stroke="#8c7b6b" stroke-width="2"/>
+      <circle cx="40" cy="33" r="8" stroke="#8c7b6b" stroke-width="2"/>
+    </svg>
+    <span style="font-style:italic; letter-spacing:0.1em;">Sewickley, PA 15143</span>
+    <span style="font-size:0.75rem; font-family:'Jost',sans-serif; color:#8c7b6b; letter-spacing:0.15em;">Exact address provided upon booking</span>
+  </div>
+
+  <div class="location-detail reveal reveal-delay-1">
+    <p class="section-label">Getting Here</p>
+    <h2 class="section-title">Conveniently<br>located in <em>Sewickley</em></h2>
+    <div class="divider"></div>
+
+    <div class="location-item">
+      <div class="location-icon">📍</div>
+      <div class="location-info">
+        <h4>Home Studio · Sewickley, PA</h4>
+        <p>Sessions are held in a private, dedicated studio space. The exact address is shared once a session is booked.</p>
+      </div>
+    </div>
+    <div class="location-item">
+      <div class="location-icon">🚗</div>
+      <div class="location-info">
+        <h4>Serving the North Pittsburgh Area</h4>
+        <p>Easily accessible from:</p>
+        <div class="location-areas">
+          <span class="area-tag">Sewickley</span>
+          <span class="area-tag">Edgeworth</span>
+          <span class="area-tag">Ben Avon</span>
+          <span class="area-tag">Emsworth</span>
+          <span class="area-tag">Leetsdale</span>
+          <span class="area-tag">Ambridge</span>
+          <span class="area-tag">Moon Twp</span>
+          <span class="area-tag">Ross Twp</span>
+        </div>
+      </div>
+    </div>
+    <div class="location-item">
+      <div class="location-icon">🅿️</div>
+      <div class="location-info">
+        <h4>Easy Parking</h4>
+        <p>Free off-street parking available directly at the studio. No meters, no hassle.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">Get in Touch</p>
+  <h2 class="section-title">Book Your First <em>Lesson</em></h2>
+  <div class="divider"></div>
+  <p class="contact-sub">Fill out the form below and I'll be in touch within 24 hours to confirm your session and answer any questions.</p>
+
+  <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+    <div class="form-row">
+      <input class="form-input" type="text" placeholder="First Name" required/>
+      <input class="form-input" type="text" placeholder="Last Name" required/>
+    </div>
+    <input class="form-input" type="email" placeholder="Email Address" required/>
+    <input class="form-input" type="tel" placeholder="Phone (optional)"/>
+    <select class="form-input">
+      <option value="" disabled selected>I'm interested in…</option>
+      <option>Single Session</option>
+      <option>4-Session Package</option>
+      <option>8-Session Package</option>
+      <option>Children's Lessons (7–12)</option>
+      <option>Teen Lessons (13–17)</option>
+      <option>Gift Certificate</option>
+      <option>Not sure yet — just exploring</option>
+    </select>
+    <select class="form-input">
+      <option value="" disabled selected>My experience level…</option>
+      <option>Complete beginner</option>
+      <option>Some experience, returning to it</option>
+      <option>Intermediate — looking to improve</option>
+      <option>Advanced — specific goals in mind</option>
+      <option>Booking for a child/teen</option>
+    </select>
+    <textarea class="form-input" placeholder="Anything else you'd like to share — medium of interest, schedule preferences, questions…"></textarea>
+    <button type="submit" class="form-submit">Send Inquiry</button>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Studio & Sketch</div>
+  <div class="footer-tagline">Private Art Lessons · Sewickley, PA</div>
+  <div class="footer-copy">© 2025 · All rights reserved</div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // Form handler
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = 'Message Sent ✓';
+    btn.style.background = '#4a7c59';
+    btn.style.color = '#f5f0e8';
+    btn.disabled = true;
+  }
+
+  // Nav shrink on scroll
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 60) {
+      nav.style.padding = '0.9rem 3rem';
+    } else {
+      nav.style.padding = '1.4rem 3rem';
+    }
+  });
+</script>
+
+</body>
+</html>
